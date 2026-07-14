@@ -17,18 +17,16 @@
     font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
     overflow: hidden;
   }
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
-  /* 750 x 1624 设计基准，等比缩放居中 */
+  /* 750 x 1624 设计基准，绝对定位居中 + 等比缩放（移动端可靠） */
   .viewport {
     width: 750px;
     height: 1624px;
-    position: relative;
+    position: absolute;
+    left: 50%;
+    top: 50%;
     transform-origin: center center;
+    transform: translate(-50%, -50%) scale(1);
   }
   .stage {
     width: 750px;
@@ -903,10 +901,13 @@
     // 等比缩放，保证 750x1624 设计在任意屏幕居中且完整显示
     function fitViewport() {
       var vp = document.getElementById('viewport');
-      var scale = Math.min(window.innerWidth / 750, window.innerHeight / 1624);
-      vp.style.transform = 'scale(' + scale + ')';
+      var w = document.documentElement.clientWidth || window.innerWidth;
+      var h = document.documentElement.clientHeight || window.innerHeight;
+      var scale = Math.min(w / 750, h / 1624);
+      vp.style.transform = 'translate(-50%, -50%) scale(' + scale + ')';
     }
     window.addEventListener('resize', fitViewport);
+    window.addEventListener('orientationchange', fitViewport);
     fitViewport();
 
     // 视频自动播放（进度条为纯净轨道，不再显示已播放高亮）
