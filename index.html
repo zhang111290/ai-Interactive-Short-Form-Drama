@@ -260,27 +260,32 @@
     pointer-events: none;
   }
 
-  /* 互动标题横幅 */
+  /* 互动标题横幅（底对齐；容器高度恒定，失败态仅底部单行显示红色块） */
   .interact-title {
     width: 750px;
     left: 0;
-    top: 903px;
+    top: auto;
+    bottom: 597px;
     padding: 16px 24px;
     box-sizing: border-box;
     display: grid;
-    place-items: center;
+    justify-items: center;
+    align-items: end;
     background: linear-gradient(90deg, rgba(51, 51, 51, 0) 0%, rgba(51, 51, 51, 0.80) 25%, rgba(51, 51, 51, 0.80) 75%, rgba(51, 51, 51, 0) 100%);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 300ms ease, background 300ms ease;
+    transition: opacity 300ms ease;
   }
-  /* 蓄力失败：横幅叠加红色渐变（仅文案区域） */
+  /* 蓄力失败：横幅背景换成红色渐变，仅覆盖底部单行高度（直接出现，无高度动画） */
   .interact-title.fail {
     background:
       linear-gradient(90deg, rgba(224, 32, 32, 0) 0%, rgba(224, 32, 32, 0.40) 25%, rgba(224, 32, 32, 0.40) 75%, rgba(224, 32, 32, 0) 100%),
       linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.70) 25%, rgba(0, 0, 0, 0.70) 75%, rgba(0, 0, 0, 0) 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 78px;
+    background-position: bottom;
   }
-  /* 两层文案叠加（同一 grid 格），通过透明度交叉切换，无空窗 */
+  /* 两层文案在同一 grid 格完全叠加，仅做 opacity 交叉淡化：初始文案 1→0 与失败文案 0→1 严格同时进行 */
   .interact-title-text {
     grid-area: 1 / 1;
     width: 590px;
@@ -289,14 +294,11 @@
     font-size: 34px;
     font-weight: 500;
     line-height: 46px;
-    min-height: 0;
-    max-height: 200px;
-    overflow: hidden;
-    transition: opacity 300ms ease, max-height 300ms ease;
+    transition: opacity 300ms ease;
   }
   .it-orig { opacity: 1; }
   .it-fail { opacity: 0; }
-  .interact-title.fail .it-orig { opacity: 0; max-height: 0; }
+  .interact-title.fail .it-orig { opacity: 0; }
   .interact-title.fail .it-fail { opacity: 1; }
 
   /* 长按组件 */
@@ -722,7 +724,7 @@
     height: 80px;
     left: 0;
     top: 224px;
-    background: white;
+    background: #205AEF; /* Figma NewBlue */
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
@@ -732,7 +734,7 @@
     left: 126.50px;
     top: 22px;
     text-align: center;
-    color: #242424;
+    color: #FFFFFF;
     font-size: 28px;
     font-weight: 500;
     line-height: 36px;
@@ -892,7 +894,7 @@
             </div>
           </div>
           <div class="abs dc-btn" id="dramaCardBtn">
-            <div class="abs dc-btn-icon"><img src="assets/drama-card/btn-icon.svg" alt="" /></div>
+            <div class="abs dc-btn-icon"><img src="assets/drama-card/btn-icon.svg?v=2" alt="" /></div>
             <div class="abs dc-btn-text">看后续剧情</div>
           </div>
         </div>
