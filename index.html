@@ -46,7 +46,7 @@
     width: 750px;
     height: 422px;
     left: 0;
-    top: 442px;
+    top: 544px;
     object-fit: cover;
     background: #000;
   }
@@ -262,8 +262,8 @@
 
   /* 互动标题横幅 */
   .interact-title {
-    width: 622px;
-    left: 64px;
+    width: 750px;
+    left: 0;
     top: 903px;
     padding: 16px 24px;
     box-sizing: border-box;
@@ -289,11 +289,14 @@
     font-size: 34px;
     font-weight: 500;
     line-height: 46px;
-    transition: opacity 300ms ease;
+    min-height: 0;
+    max-height: 200px;
+    overflow: hidden;
+    transition: opacity 300ms ease, max-height 300ms ease;
   }
   .it-orig { opacity: 1; }
   .it-fail { opacity: 0; }
-  .interact-title.fail .it-orig { opacity: 0; }
+  .interact-title.fail .it-orig { opacity: 0; max-height: 0; }
   .interact-title.fail .it-fail { opacity: 1; }
 
   /* 长按组件 */
@@ -347,8 +350,8 @@
     top: 14.375px;
     border-radius: 50%;
     background: conic-gradient(from var(--start),
-        rgba(255, 219, 187, 0.30) 0deg,
-        rgba(255, 219, 187, 0.30) var(--arc),
+        rgba(255, 255, 255, 0.12) 0deg,
+        rgba(255, 255, 255, 0.12) var(--arc),
         transparent var(--arc));
     -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring)));
             mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring)));
@@ -364,13 +367,21 @@
     left: 27.375px;
     top: 14.375px;
     border-radius: 50%;
+    /* 颜色渐变位置固定在整条半圆上（起浅→中蓝→末紫），进度只控制"露出"多少，蓄力时颜色自然过渡 */
     background: conic-gradient(from var(--start),
-        #FFF3DC 0deg,
-        #FFE895 calc(var(--arc) * var(--progress) * 0.66),
-        #FF8A14 calc(var(--arc) * var(--progress)),
-        transparent calc(var(--arc) * var(--progress)));
-    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring)));
-            mask: radial-gradient(farthest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring)));
+        #DEE3EF 0deg,
+        #4877EF calc(var(--arc) * 0.5),
+        #884DFF var(--arc),
+        transparent var(--arc));
+    /* 双层遮罩：conic 控制进度露出到 --progress，radial 裁出环形，二者取交集 */
+    -webkit-mask:
+        conic-gradient(from var(--start), #000 0deg, #000 calc(var(--arc) * var(--progress)), transparent calc(var(--arc) * var(--progress))),
+        radial-gradient(farthest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring)));
+    -webkit-mask-composite: source-in;
+            mask:
+        conic-gradient(from var(--start), #000 0deg, #000 calc(var(--arc) * var(--progress)), transparent calc(var(--arc) * var(--progress))),
+        radial-gradient(farthest-side, transparent calc(100% - var(--ring)), #000 calc(100% - var(--ring)));
+            mask-composite: intersect;
     opacity: 0;            /* 进度条1 初始透明度 0，蓄力时显现 */
     transition: none;
   }
@@ -821,9 +832,9 @@
 
       <!-- 长按组件 -->
       <div class="abs longpress" id="longpress">
-        <div class="abs lp-decor"><img class="abs" src="assets/longpress/decor-arc.svg" alt="" /></div>
+        <div class="abs lp-decor"><img class="abs" src="assets/longpress/decor-arc.svg?v=3" alt="" /></div>
         <div class="abs lp-track"></div>
-        <div class="abs lp-halo1"><img class="abs" src="assets/longpress/halo-bg.png" alt="" /></div>
+        <div class="abs lp-halo1"><img class="abs" src="assets/longpress/halo-bg.png?v=2" alt="" /></div>
         <div class="abs lp-progress" id="lpProgress"></div>
         <div class="abs lp-slider" id="lpSlider"></div>
         <!-- 中心钮（Figma 层：Ellipse + 背景 + 星光 + 内阴影 + 文案；热区 194×194 居中于 294×294） -->
@@ -831,9 +842,9 @@
           <div class="abs lp-btn-plate"></div>
           <div class="abs lp-btn-core">
             <div class="abs lp-btn-ellipse"></div>
-            <div class="abs lp-btn-bg-wrap"><img class="lp-btn-bg-img" src="assets/longpress/btn-bg.png" alt="" /></div>
+            <div class="abs lp-btn-bg-wrap"><img class="lp-btn-bg-img" src="assets/longpress/btn-bg.png?v=2" alt="" /></div>
             <img class="abs lp-btn-shadow" src="assets/longpress/btn-inner-shadow.svg" alt="" />
-            <div class="abs lp-sparkles-wrap"><img class="lp-sparkles-img" src="assets/longpress/btn-sparkle.png" alt="" /></div>
+            <div class="abs lp-sparkles-wrap"><img class="lp-sparkles-img" src="assets/longpress/btn-sparkle.png?v=2" alt="" /></div>
           </div>
           <div class="abs lp-btn-text"><img class="lp-btn-label" src="assets/longpress/btn-label.svg" alt="点击长按" /></div>
         </div>

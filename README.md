@@ -144,14 +144,14 @@ function tick(ts) {
 | ├ 背景 | `.lp-btn-bg`(wrap+img) | Figma `btn-bg.png`，**常驻缩放呼吸 + 中心旋转** |
 | ├ 内阴影 | `.lp-btn-shadow` | Figma `btn-inner-shadow.svg`，圆内暗边 |
 | └ 星光 | `.lp-sparkles`(wrap+img) | Figma `btn-sparkle.png`，**常驻缩放/透明度呼吸**，`brightness(1.5)` 提亮 |
-| 文案 | `.lp-btn-text` | `点击/长按`，字体 `MF DianHei` 36px、字距 7px，flex 居中于内芯 |
+| 文案 | `.lp-btn-text` | Figma 文字 SVG（`btn-label.svg`，字体已转矢量路径，跨设备一致），flex 居中于内芯 |
 
 **常驻动效**（进入互动态即一直运行，与蓄力状态无关）：
 ```css
 /* 背景：外层 wrap 呼吸缩放，内层 img 中心旋转，两者叠加 */
 .lp-btn-bg-wrap { animation: lp-btn-bg-breathe 2.4s ease-in-out infinite; }
 @keyframes lp-btn-bg-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(2); } }
-.lp-btn-bg-img  { animation: lp-btn-bg-spin 8s linear infinite; }
+.lp-btn-bg-img  { animation: lp-btn-bg-spin 6s linear infinite; }
 @keyframes lp-btn-bg-spin { to { transform: rotate(360deg); } }
 /* 星光：缩放 + 透明度呼吸 */
 .lp-sparkles-wrap { animation: lp-sparkles-breathe 2.8s ease-in-out infinite; }
@@ -233,7 +233,7 @@ function tick(ts) {
 |------|------|------|------|
 | 进入互动态（组件淡入/缩放） | 300ms | ease | 长按组件 `scale(0.86→1)` + 淡入；底部文案/操作栏淡出 |
 | 中心钮背景呼吸缩放 | 2.4s | ease-in-out | `scale(1↔2)`，圆内裁切 |
-| 中心钮背景旋转 | 8s | linear | 背景图中心匀速旋转 |
+| 中心钮背景旋转 | 6s | linear | 背景图中心匀速旋转 |
 | 中心钮星光呼吸 | 2.8s | ease-in-out | `scale(0.85↔1.1)` + 透明度 `0.45↔1` |
 | 蓄力进度增长 | 约 800ms | 线性(rAF) | 半圆进度环 sweep `0→1` |
 | 蓄力回落 | 约 1200ms | 线性(rAF) | 松手后进度回落 `→0` |
@@ -269,6 +269,7 @@ ai互动短剧/
     │   ├── btn-bg.png             # 中心钮背景暖晕
     │   ├── btn-inner-shadow.svg   # 中心钮内阴影
     │   ├── btn-sparkle.png        # 中心钮星光
+    │   ├── btn-label.svg          # 「点击长按」文字（矢量，跨设备一致）
     │   └── close-ring.svg / close-cross.svg  # 关闭按钮
     ├── particles/             # 成功炸裂粒子素材（星星 / 圆点簇）
     ├── drama-card/            # 短剧卡素材（封面 / 背景 / 图标 / 遮罩）
@@ -307,7 +308,7 @@ python3 -m http.server 8899
 | 失败阈值 | `release()` | `0.05` | 判定失败的最小蓄力量 |
 | 失败持续 | `showFail()` | `1000` | 失败提示停留时长 |
 | 背景呼吸 | `lp-btn-bg-breathe` | `scale 1↔2` / `2.4s` | 中心钮背景缩放呼吸 |
-| 背景旋转 | `lp-btn-bg-spin` | `8s` | 中心钮背景旋转周期 |
+| 背景旋转 | `lp-btn-bg-spin` | `6s` | 中心钮背景旋转周期 |
 | 星光呼吸 | `lp-sparkles-breathe` | `2.8s` | 星光缩放/透明度呼吸 |
 | 进度块几何 | `updateSlider()` | 中心 `(170,157)`、`R=127` | 进度块沿半圆环的运动参数 |
 | 粒子数/位置 | `spawnBurst()` | 9 个 | 星星+圆点簇布局 |
